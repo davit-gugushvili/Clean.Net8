@@ -1,0 +1,12 @@
+﻿global using AutoMapper;
+global using FluentValidation;
+global using MediatR;
+global using Microsoft.EntityFrameworkCore;
+global using UM.Application.Common.Constants;
+global using UM.Application.Common.DTOs;
+global using UM.Application.Common.Extensions;
+global using UM.Application.Interfaces;
+global using UM.Domain.Events;
+global using UM.SharedKernel.DTOs;
+global using UM.SharedKernel.Extensions;
+global using UM.SharedKernel.PipelineBehaviors;

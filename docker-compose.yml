@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  um.api:
+    image: ${DOCKER_REGISTRY-}umapi
+    build:
+      context: .
+      dockerfile: UM.API/Dockerfile
