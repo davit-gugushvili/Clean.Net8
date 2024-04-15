@@ -5,12 +5,12 @@
         public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
             DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
         {
-            if (eventData.Context is null)
+            if (eventData.Context == null)
             {
                 return base.SavingChangesAsync(eventData, result, cancellationToken);
             }
 
-            var entries = eventData.Context.ChangeTracker.Entries<ISoftDelible>().Where(e => e.State == EntityState.Deleted);
+            var entries = eventData.Context.ChangeTracker.Entries<ISoftDelible>().Where(x => x.State == EntityState.Deleted);
 
             foreach (var entry in entries)
             {

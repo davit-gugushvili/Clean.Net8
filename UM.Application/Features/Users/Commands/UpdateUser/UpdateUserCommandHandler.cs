@@ -4,7 +4,8 @@ using UM.Domain.Aggregates.User.ValueObjects;
 
 namespace UM.Application.Features.Users.Commands.UpdateUser
 {
-    internal sealed class UpdateUserCommandHandler(IRepository<User> userRepository) : IRequestHandler<UpdateUserCommand, Result>
+    internal sealed class UpdateUserCommandHandler(IRepository<User> userRepository) 
+        : IRequestHandler<UpdateUserCommand, Result>
     {
         public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {

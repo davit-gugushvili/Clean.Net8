@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using UM.Persistence.DbContexts;
+using UM.Persistence.Interceptors;
 using UM.Persistence.Options;
-using UM.Persistence.Repositories;
 
 namespace UM.Persistence
 {
@@ -12,7 +12,13 @@ namespace UM.Persistence
             if (string.IsNullOrEmpty(options?.UserManagement))
                 throw new ArgumentNullException("Connection string can't be null");
 
-            services.AddDbContext<UserManagementDbContext>(x => x.UseSqlServer(options.UserManagement));
+            services.AddSingleton<PublishDomainEventsInterceptor>();
+            services.AddSingleton<SoftDeleteInterceptor>();
+
+            services.AddDbContext<UserManagementDbContext>((serviceProvider, builder) => builder
+                .UseSqlServer(options.UserManagement)
+                .AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>())
+                .AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>()));
 
             services.AddScoped<IUserManagementDbContext, UserManagementDbContext>();
 
