@@ -1,9 +1,9 @@
 ﻿namespace UM.Persistence.Options
 {
-    public sealed class ConnectionStringsOptions
+    public sealed class ConnectionStringOptions : IAppSettings
     {
-        public static string ConnectionStrings = "ConnectionStrings";
+        public static string Section => "ConnectionStrings";
 
-        public string UserManagement { get; set; } = string.Empty;
+        public required string UserManagement { get; set; }
     }
 }

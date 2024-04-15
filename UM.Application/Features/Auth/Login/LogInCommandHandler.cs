@@ -29,21 +29,14 @@ namespace UM.Application.Features.Auth.Login
 
             var refreshToken = jwtProvider.GenerateRefreshToken();
 
-            user.RefreshTokens.Add(new RefreshToken
+            user.Tokens.Add(new Token
             {
-                Token = refreshToken
-            });
-
-            await userRepository.SaveChangesAsync(cancellationToken);
-
-            return Result.Success(new LogInCommandDto
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Role = user.Role.Name,
-                AccessToken = accessToken,
                 RefreshToken = refreshToken
             });
+
+            await userRepository.UpdateAsync(user, cancellationToken);
+
+            return Result.Success(new LogInCommandDto(user.Name, user.Email, user.Role.Name, accessToken, refreshToken));
         }
     }
 }

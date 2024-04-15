@@ -1,4 +1,4 @@
-﻿namespace UM.SharedKernel.Abstractions
+﻿namespace UM.SharedKernel.Interfaces
 {
     public interface IAggregateRoot
     {

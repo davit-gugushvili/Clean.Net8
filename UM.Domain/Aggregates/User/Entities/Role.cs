@@ -1,6 +1,6 @@
 ﻿namespace UM.Domain.Aggregates.User.Entities
 {
-    public partial class Role : EntityBase
+    public partial class Role : Entity
     {
         public string Name { get; set; } = string.Empty;
 

@@ -9,4 +9,5 @@ global using UM.Application.Interfaces;
 global using UM.Domain.Events;
 global using UM.SharedKernel.DTOs;
 global using UM.SharedKernel.Extensions;
+global using UM.SharedKernel.Interfaces;
 global using UM.SharedKernel.PipelineBehaviors;

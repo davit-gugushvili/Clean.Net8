@@ -1,6 +1,6 @@
 ﻿namespace UM.Application.Features.Users.EventHandlers
 {
-    internal sealed class UserCreatedDomainEventHandler(IEmailService emailService) 
+    internal sealed class UserCreatedDomainEventHandler(IEmailService emailService)
         : INotificationHandler<UserCreatedDomainEvent>
     {
         public async Task Handle(UserCreatedDomainEvent notification, CancellationToken cancellationToken)

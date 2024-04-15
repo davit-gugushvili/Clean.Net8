@@ -8,7 +8,7 @@ namespace UM.Persistence.DbContexts
     public partial class UserManagementDbContext(DbContextOptions<UserManagementDbContext> options)
         : DbContext(options), IUserManagementDbContext
     {
-        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+        public virtual DbSet<Token> Tokens { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
@@ -19,7 +19,7 @@ namespace UM.Persistence.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
+            modelBuilder.ApplyConfiguration(new TokenConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
 

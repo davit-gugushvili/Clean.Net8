@@ -1,4 +1,5 @@
-﻿using ArchUnitNET.Fluent;
+﻿using ArchitectureTests.Common;
+using ArchUnitNET.Fluent;
 using ArchUnitNET.xUnit;
 using MediatR;
 

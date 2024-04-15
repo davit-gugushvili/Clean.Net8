@@ -5,12 +5,12 @@
     {
         public async Task<Result<string>> Handle(RefreshQuery request, CancellationToken cancellationToken)
         {
-            var user = await dbContext.Users.Include(x => x.Role).Include(x => x.RefreshTokens).Select(x => new
+            var user = await dbContext.Users.Include(x => x.Role).Include(x => x.Tokens).Select(x => new
             {
                 x.Id,
                 Role = x.Role!.Name,
-                IsRefreshTokenValid = x.RefreshTokens.Any(x => x.Token == request.RefreshToken)
-            }).FirstOrDefaultAsync(x => x.Id == currentUser.Id!.Value, cancellationToken);
+                IsRefreshTokenValid = x.Tokens.Any(x => x.RefreshToken == request.RefreshToken)
+            }).FirstOrDefaultAsync(x => x.Id == currentUser.Id, cancellationToken);
 
             if (user == null)
                 return Result.Failure(ErrorMessages.UserNotFound);

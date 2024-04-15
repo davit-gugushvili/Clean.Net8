@@ -8,21 +8,21 @@ namespace UM.Application.Features.Auth.Login
     {
         public async Task<Result> Handle(LogOutCommand request, CancellationToken cancellationToken)
         {
-            var spec = new UserWithRefreshTokensSpecification(currentUser.Id!.Value);
+            var spec = new UserWithTokensSpecification(currentUser.Id);
 
             var user = await userRepository.SingleOrDefaultAsync(spec, cancellationToken);
 
             if (user == null)
                 return Result.Failure(ErrorMessages.UserNotFound);
 
-            var refreshToken = user.RefreshTokens.FirstOrDefault(x => x.Token == request.RefreshToken);
+            var refreshToken = user.Tokens.FirstOrDefault(x => x.RefreshToken == request.RefreshToken);
 
             if (refreshToken == null)
                 return Result.Failure(ErrorMessages.UserNotFound);
 
-            user.RefreshTokens.Remove(refreshToken);
+            user.Tokens.Remove(refreshToken);
 
-            await userRepository.SaveChangesAsync(cancellationToken);
+            await userRepository.UpdateAsync(user, cancellationToken);
 
             return Result.Success();
         }

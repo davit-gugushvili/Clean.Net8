@@ -1,6 +1,7 @@
-﻿using ArchUnitNET.Fluent;
+﻿using ArchitectureTests.Common;
+using ArchUnitNET.Fluent;
 using ArchUnitNET.xUnit;
-using UM.SharedKernel.Abstractions;
+using UM.SharedKernel.Interfaces;
 
 namespace ArchitectureTests
 {
@@ -10,7 +11,7 @@ namespace ArchitectureTests
         public void DomainEvents_Should_HaveNameEndingWith_DomainEvent()
         {
             ArchRuleDefinition
-                .Classes().That().AreAssignableTo(typeof(DomainEventBase)).And().AreNot(typeof(DomainEventBase))
+                .Classes().That().ImplementInterface(typeof(IDomainEvent))
                 .Should().HaveNameEndingWith("DomainEvent")
                 .Check(Architecture);
         }

@@ -4,7 +4,7 @@ using UM.Domain.Aggregates.User.Errors;
 
 namespace UM.Domain.Aggregates.User.ValueObjects
 {
-    public class Password : ValueObjectBase
+    public class Password : ValueObject
     {
         private const int MimLength = 3;
         private const int MaxLength = 20;

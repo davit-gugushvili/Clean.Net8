@@ -4,9 +4,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace UM.Infrastructure.Auth
+namespace UM.Infrastructure.Security.Jwt
 {
-    public class JwtProvider(IOptions<JwtOptions> options) 
+    public class JwtProvider(IOptions<JwtOptions> options)
         : IJwtProvider
     {
         public string GenerateAccessToken(int userId, string role)

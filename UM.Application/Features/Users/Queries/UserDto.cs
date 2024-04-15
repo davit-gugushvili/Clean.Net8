@@ -2,10 +2,10 @@
 {
     public sealed record UserDto
     {
-        public required int Id { get; set; }
-        public required string Name { get; set; }
-        public required string Email { get; set; }
-        public required int RoleId { get; set; }
-        public required string Role { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public int RoleId { get; set; }
+        public string Role { get; set; } = string.Empty;
     }
 }

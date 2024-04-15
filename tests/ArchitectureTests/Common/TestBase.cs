@@ -1,18 +1,19 @@
 ﻿using ArchUnitNET.Domain;
 using ArchUnitNET.Fluent;
 using ArchUnitNET.Loader;
+using UM.SharedKernel.Interfaces;
 using Assembly = System.Reflection.Assembly;
 
-namespace ArchitectureTests
+namespace ArchitectureTests.Common
 {
     public abstract class TestBase
     {
-        protected static readonly Assembly SharedKernelAssembly = typeof(UM.SharedKernel.Abstractions.IAggregateRoot).Assembly;
+        protected static readonly Assembly SharedKernelAssembly = typeof(IAggregateRoot).Assembly;
         protected static readonly Assembly DomainAssembly = typeof(UM.Domain.Aggregates.User.User).Assembly;
         protected static readonly Assembly ApplicationAssembly = typeof(UM.Application.DependencyInjection).Assembly;
         protected static readonly Assembly PersistenceAssembly = typeof(UM.Persistence.DependencyInjection).Assembly;
         protected static readonly Assembly InfrastructureAssembly = typeof(UM.Infrastructure.DependencyInjection).Assembly;
-        protected static readonly Assembly APIAssembly = typeof(UM.API.Auth.CurrentUser).Assembly;
+        protected static readonly Assembly APIAssembly = typeof(UM.API.Extensions.ResultExtensions).Assembly;
 
         protected static readonly Architecture Architecture = new ArchLoader().LoadAssemblies(
             SharedKernelAssembly,

@@ -3,7 +3,7 @@ using UM.Domain.Aggregates.User.ValueObjects;
 
 namespace UM.Domain.Aggregates.User;
 
-public partial class User : EntityBase, IAggregateRoot, ISoftDelible
+public partial class User : Entity, IAggregateRoot, ISoftDelible
 {
     public int RoleId { get; set; }
 
@@ -23,7 +23,7 @@ public partial class User : EntityBase, IAggregateRoot, ISoftDelible
 
     public virtual ICollection<User> InverseCreator { get; set; } = new List<User>();
 
-    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+    public virtual ICollection<Token> Tokens { get; set; } = new List<Token>();
 
     public virtual Role? Role { get; set; }
 }

@@ -2,6 +2,6 @@
 {
     public interface ICurrentUser
     {
-        int? Id { get; }
+        public int Id { get; }
     }
 }
