@@ -1,21 +1,18 @@
-﻿using UM.Domain.Aggregates.User;
-using UM.Domain.Aggregates.User.Entities;
-using UM.Domain.Aggregates.User.Specifications;
+﻿using UM.Domain.Aggregates.User.Entities;
 using UM.Domain.Aggregates.User.ValueObjects;
 
 namespace UM.Application.Features.Auth.Login
 {
-    internal sealed class LogInCommandHandler(IRepository<User> userRepository, IJwtProvider jwtProvider)
+    internal sealed class LogInCommandHandler(IUserManagementDbContext dbContext, IRepository<RefreshToken> refreshTokenRepository, IJwtProvider jwtProvider)
         : IRequestHandler<LogInCommand, Result<LogInCommandDto>>
     {
         public async Task<Result<LogInCommandDto>> Handle(LogInCommand request, CancellationToken cancellationToken)
         {
-            var spec = new UserWithRoleSpecification(request.Email);
-
-            var user = await userRepository.SingleOrDefaultAsync(spec, cancellationToken);
+            var user = await dbContext.Users.Include(x => x.Role)
+                .Select(x => new { x.Id, Role = x.Role!.Name, x.Name, x.Email, x.Password }).FirstOrDefaultAsync();
 
             if (user == null)
-                return Result.Failure(ErrorMessages.UserNotFound);
+                return Result.Failure(Errors.UserNotFound);
 
             var passwordResult = Password.Create(user.Password!.Salt, request.Password);
 
@@ -23,20 +20,19 @@ namespace UM.Application.Features.Auth.Login
                 return Result.Failure(passwordResult);
 
             if (user.Password != passwordResult.Value!)
-                return Result.Failure(ErrorMessages.InvalidCredentials);
+                return Result.Failure(AuthErrors.InvalidCredentials);
 
-            var accessToken = jwtProvider.GenerateAccessToken(user.Id, user.Role!.Name);
+            var accessToken = jwtProvider.GenerateAccessToken(user.Id, user.Role);
 
             var refreshToken = jwtProvider.GenerateRefreshToken();
 
-            user.Tokens.Add(new Token
+            await refreshTokenRepository.AddAsync(new RefreshToken
             {
-                RefreshToken = refreshToken
+                UserId = user.Id,
+                Token = refreshToken
             });
 
-            await userRepository.UpdateAsync(user, cancellationToken);
-
-            return Result.Success(new LogInCommandDto(user.Name, user.Email, user.Role.Name, accessToken, refreshToken));
+            return Result.Success(new LogInCommandDto(user.Name, user.Email, user.Role, accessToken, refreshToken));
         }
     }
 }

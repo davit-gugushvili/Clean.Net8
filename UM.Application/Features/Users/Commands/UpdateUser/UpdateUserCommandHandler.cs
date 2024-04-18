@@ -19,7 +19,7 @@ namespace UM.Application.Features.Users.Commands.UpdateUser
             var user = await userRepository.FirstOrDefaultAsync(spec, cancellationToken);
 
             if (user == null)
-                return Result.Failure(ErrorMessages.UserNotFound);
+                return Result.Failure(Errors.UserNotFound);
 
             user.Name = request.Name;
             user.Email = request.Email;

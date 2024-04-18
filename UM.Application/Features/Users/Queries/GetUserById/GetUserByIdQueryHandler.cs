@@ -9,7 +9,7 @@
                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (user == null)
-                return Result.Failure(ErrorMessages.UserNotFound);
+                return Result.Failure(Errors.UserNotFound);
 
             return Result.Success(user);
         }

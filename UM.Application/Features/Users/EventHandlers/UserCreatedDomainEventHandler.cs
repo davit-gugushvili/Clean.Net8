@@ -5,7 +5,8 @@
     {
         public async Task Handle(UserCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            await emailService.SendEmailAsync(notification.User.Email, "Account Creation", "Your account has been successfully created!", cancellationToken);
+            await emailService.SendEmailAsync(
+                notification.User.Email, "Account Creation", "Your account has been successfully created!", cancellationToken);
         }
     }
 }

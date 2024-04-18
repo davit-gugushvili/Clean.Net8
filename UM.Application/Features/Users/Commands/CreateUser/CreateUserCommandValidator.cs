@@ -10,7 +10,7 @@
             RuleFor(x => x.Email).NotEmpty().EmailAddress().MustAsync(async (email, _) =>
                 {
                     return !await _dbContext.Users.AnyAsync(x => x.Email == email);
-                }).WithMessage(ErrorMessages.EmailAlreadyExists.ErrorMessage).WithErrorCode(ErrorMessages.EmailAlreadyExists.ErrorCode);
+                }).WithMessage(UserErrors.EmailAlreadyExists.ErrorMessage).WithErrorCode(UserErrors.EmailAlreadyExists.ErrorCode);
             RuleFor(x => x.Password).NotEmpty().Password();
             RuleFor(x => x.RoleId).NotEmpty();
         }

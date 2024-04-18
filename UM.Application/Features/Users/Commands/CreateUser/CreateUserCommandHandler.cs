@@ -3,7 +3,7 @@ using UM.Domain.Aggregates.User.ValueObjects;
 
 namespace UM.Application.Features.Users.Commands.CreateUser
 {
-    internal sealed class CreateUserCommandHandler(IRepository<User> userRepository, ICurrentUser currentUser, IDateTimeProvider dateTimeProvider)
+    internal sealed class CreateUserCommandHandler(IRepository<User> userRepository)
         : IRequestHandler<CreateUserCommand, Result<int>>
     {
         public async Task<Result<int>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -18,9 +18,7 @@ namespace UM.Application.Features.Users.Commands.CreateUser
                 Name = request.Name,
                 Email = request.Email,
                 Password = passwordResult.Value!,
-                RoleId = request.RoleId,
-                CreatorId = currentUser.Id,
-                CreateDate = dateTimeProvider.UtcNow
+                RoleId = request.RoleId
             };
 
             user.AddDomainEvent(new UserCreatedDomainEvent(user));

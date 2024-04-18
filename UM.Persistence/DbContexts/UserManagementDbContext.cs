@@ -6,9 +6,9 @@ namespace UM.Persistence.DbContexts
     public partial class UserManagementDbContext(DbContextOptions<UserManagementDbContext> options)
         : DbContext(options), IUserManagementDbContext
     {
-        public virtual DbSet<Token> Tokens { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -16,9 +16,27 @@ namespace UM.Persistence.DbContexts
 
             modelBuilder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
 
-            OnModelCreatingPartial(modelBuilder);
+            SeedData(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        private void SeedData(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Role>().HasData([
+                new Role { Id = 1, Name = "Admin" },
+                new Role { Id = 2, Name = "Customer" }]);
+
+            // complex types are not yet supported in seeding, so PasswordSalt and PasswordHash fields has to be set manually in migration file
+
+            modelBuilder.Entity<User>().HasData(new
+            {
+                Id = 1,
+                RoleId = 1,
+                Name = "Davit",
+                Email = "dato.gugushvili@gmail.com",
+                IsDeleted = false,
+                CreateDate = new DateTimeOffset(new DateTime(2024, 01, 01)),
+                CreatorId = 1
+            });
+        }
     }
 }

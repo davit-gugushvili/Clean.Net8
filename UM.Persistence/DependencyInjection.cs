@@ -10,15 +10,17 @@ namespace UM.Persistence
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, ConnectionStringOptions options)
         {
             if (string.IsNullOrEmpty(options?.UserManagement))
-                throw new ArgumentNullException("Connection string can't be null");
+                throw new ArgumentNullException("Connection String Can't Be Null");
 
             services.AddSingleton<PublishDomainEventsInterceptor>();
-            services.AddSingleton<SoftDeleteInterceptor>();
+            services.AddScoped<SoftDeleteInterceptor>();
+            services.AddScoped<AuditableInterceptor>();
 
             services.AddDbContext<UserManagementDbContext>((serviceProvider, builder) => builder
                 .UseSqlServer(options.UserManagement)
                 .AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>())
-                .AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>()));
+                .AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>())
+                .AddInterceptors(serviceProvider.GetRequiredService<AuditableInterceptor>()));
 
             services.AddScoped<IUserManagementDbContext, UserManagementDbContext>();
 

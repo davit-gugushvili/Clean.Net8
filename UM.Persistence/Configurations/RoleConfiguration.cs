@@ -8,10 +8,15 @@ namespace UM.Persistence.Configurations
         {
             entity.ToTable("Role");
 
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnOrder(1);
+
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnOrder(2);
 
             OnConfigurePartial(entity);
         }

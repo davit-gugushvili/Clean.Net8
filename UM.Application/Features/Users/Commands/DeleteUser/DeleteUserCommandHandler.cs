@@ -13,7 +13,7 @@ namespace UM.Application.Features.Users.Commands.DeleteUser
             var user = await userRepository.FirstOrDefaultAsync(spec, cancellationToken);
 
             if (user == null)
-                return Result.Failure(ErrorMessages.UserNotFound);
+                return Result.Failure(Errors.UserNotFound);
 
             await userRepository.DeleteAsync(user, cancellationToken);
 

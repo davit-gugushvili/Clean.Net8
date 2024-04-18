@@ -17,8 +17,8 @@
                         {
                             return !await _dbContext.Users.AnyAsync(x => x.Email == p.Email && x.Id != p.Id);
                         })
-                        .WithMessage(ErrorMessages.EmailAlreadyExists.ErrorMessage)
-                        .WithErrorCode(ErrorMessages.EmailAlreadyExists.ErrorCode)
+                        .WithMessage(UserErrors.EmailAlreadyExists.ErrorMessage)
+                        .WithErrorCode(UserErrors.EmailAlreadyExists.ErrorCode)
                         .OverridePropertyName(nameof(UpdateUserCommand.Email));
                 });
             });
