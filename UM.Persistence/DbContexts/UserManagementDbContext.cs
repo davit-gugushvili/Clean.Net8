@@ -1,4 +1,5 @@
-﻿using UM.Domain.Aggregates.User;
+﻿using UM.Domain.Aggregates.OutboxMessage;
+using UM.Domain.Aggregates.User;
 using UM.Domain.Aggregates.User.Entities;
 
 namespace UM.Persistence.DbContexts
@@ -9,6 +10,7 @@ namespace UM.Persistence.DbContexts
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+        public virtual DbSet<OutboxMessage> OutboxMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

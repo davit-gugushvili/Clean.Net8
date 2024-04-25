@@ -1,4 +1,5 @@
-﻿using UM.Domain.Aggregates.User.Entities;
+﻿using System.Text.Json.Serialization;
+using UM.Domain.Aggregates.User.Entities;
 using UM.Domain.Aggregates.User.ValueObjects;
 
 namespace UM.Domain.Aggregates.User

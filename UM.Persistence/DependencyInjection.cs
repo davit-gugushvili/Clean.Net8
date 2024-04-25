@@ -12,13 +12,15 @@ namespace UM.Persistence
             if (string.IsNullOrEmpty(options?.UserManagement))
                 throw new ArgumentNullException("Connection String Can't Be Null");
 
-            services.AddSingleton<PublishDomainEventsInterceptor>();
+            //services.AddScoped<PublishDomainEventsInterceptor>();
+            services.AddTransient<OutboxMessageInterceptor>();
             services.AddScoped<SoftDeleteInterceptor>();
             services.AddScoped<AuditableInterceptor>();
 
             services.AddDbContext<UserManagementDbContext>((serviceProvider, builder) => builder
                 .UseSqlServer(options.UserManagement)
-                .AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>())
+                //.AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>())
+                .AddInterceptors(serviceProvider.GetRequiredService<OutboxMessageInterceptor>())
                 .AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>())
                 .AddInterceptors(serviceProvider.GetRequiredService<AuditableInterceptor>()));
 
